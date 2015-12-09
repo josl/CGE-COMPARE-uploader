@@ -1,0 +1,88 @@
+<div ng-controller="RingtrialsCtrl">
+    <tabset justified="true" type="tabs">
+      <!-- <tab heading="Intro">
+          <div class="jumbotron">
+            <h2>Welcome to the QC pipeline Uploader</h2>
+            <p>Here you can find a small guide on how to use the uploader</p>
+            <p class="text-right">
+                <button ng-click="tabs[1].active = true" class="btn btn-fab btn-raised btn-material-red-900"><i class="mdi-navigation-arrow-forward"></i></button>
+            </p>
+
+          </div>
+      </tab> -->
+      <tab heading="Metadata Spreadsheet">
+          <div class="well well-lg">
+                <h2>QC Pipeline Uploader</h2>
+                <p>Here you can find a small guide on how to use the uploader</p>
+                <!-- <p>...</p> -->
+                <!-- <p><a class="btn btn-material-red-900 btn-lg" ng-click="tabs[1].active = true" role="button">To move to the next step click here</a></p> -->
+                <!-- <p class="text-right">
+                    <button ng-click="tabs[1].active = true" class="btn btn-fab btn-raised btn-material-red-900"><i class="mdi-navigation-arrow-forward"></i></button>
+                </p> -->
+
+              <h4>
+                  <p class="container">
+                      <div class="row">
+                          <p class="text-left col-xs-6">
+                              <i role="button" class="material-black mdi-file-file-download" href="metadata/metadataform_ringtrials.xlsx">
+                              </i>
+                              Spreadsheet
+                          </p>
+                          <p class="text-right col-xs-6">
+                              <i ng-show="metadataExampleCollapsed" role="button" class="material-white mdi-navigation-expand-more" ng-click="metadataExampleCollapsed = !metadataExampleCollapsed">
+                              </i>
+                              <i ng-hide="metadataExampleCollapsed" role="button" class="material-white mdi-navigation-expand-less" ng-click="metadataExampleCollapsed = !metadataExampleCollapsed">
+                              </i>
+                              Information
+                          </p>
+                      </div>
+                  </p>
+              </h4>
+            <div collapse="metadataExampleCollapsed">
+                <p>Metadata ensures that our data is stored according to our standards. In order to user our uploader you need to download an excel sheet that you must fill out with the proper information.</p>
+                <p>Remember to check the tab ‘Attribute description’ indicating the required contents. In the template, each line corresponds to one sample.</p>
+                <p>Batch-upload is available to list information related to all relevant samples in the same spreadsheet.</p>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th ng-repeat="column in columnsExample">{{column}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="danger" ng-repeat="isolate in valuesExample" style="font:smaller">
+                        <td ng-repeat="(key, value) in isolate">
+                            <strong>{{ value }}</strong>
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+          <metadata file="ringTrials" visible=true></metadata>
+          <div ng-show="excelStatus === 'valid'" class="well well-lg text-center">
+              <p>Take a look at the table above and review the metadata</p>
+              <p>If you find any error simply upload your updated excel file again</p>
+              <p class="text-center">
+                  <button ng-click="tabs[1].active = true"
+                          class="btn btn-fab btn-raised btn-material-green-900">
+                      <i class="mdi-navigation-arrow-forward"></i>
+                  </button>
+              </p>
+          </div>
+      </tab>
+      <tab heading="File Upload">
+          <div class="well well-lg text-left">
+              <p>Here you can upload your sequences and see the progress of the upload for each file.</p>
+              <p>If there are any problems while uploading the files you can resume them later.</p>
+          </div>
+          <drop-files-button active="excelStatus" is-service="false"></drop-files-button>
+          <uploader-progress is-service=false></uploader-progress>
+          <div class="well well-lg" ng-show="excelStatus === 'valid'  &&
+                   isolateFiles.length === templateFiles.length">
+                   <p class="text-center"><submit-upload></submit-upload></p>
+              After upload is complete, please insert your email address in the popup screen after submission and await the QC results either on screen or by email. Depending on the number of ongoing submissions, it might be a while before the database responds with an email indicating the QC-results. Subsequent to the deadline for submission, additional calculations and QC-results will be sent to the email address indicated in the metadatafile.
+          </div>
+      </tab>
+    </tabset>
+
+</div>
