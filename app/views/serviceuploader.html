@@ -1,0 +1,10 @@
+<div ng-controller="ServiceuploaderCtrl">
+    <drop-files-button active="true" is-service="true"></drop-files-button>
+    <div class="well well-lg" >
+        <uploader-progress is-service=true></uploader-progress>
+        <div ng-show="excelStatus === 'valid'  &&
+                 isolateFiles.length !== 0">
+                 <p class="text-center"><submit-upload></submit-upload></p>
+        </div>
+    </div>
+</div>
