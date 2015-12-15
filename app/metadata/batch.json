@@ -7,7 +7,6 @@
         "sequencing_platform": ["Illumina", "Ion Torrent"],
         "sequencing_type": ["single", "paired", "mate-paired", "unknown"],
         "pre_assembled": ["yes", "no"],
-        "sample_type": ["metagenomic", "isolate"],
         "organism": "",
         "strain": "",
         "subtype": "",
@@ -27,11 +26,16 @@
         "usage_restrictions": ["private", "public"],
         "release_date": "",
         "email_address": "",
-        "notes": "",
+        "notes": ""
     },
     "mandatory":
     [
-
+        "sequencing_platform",
+        "sequencing_type",
+        "file_names",
+        "pre_assembled",
+        "country",
+        "isolation_source",
+        "collection_date"
     ]
-
 }
