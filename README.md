@@ -19,6 +19,10 @@ To run the uploader on your browser for preview:
 
 `grunt serve`
 
+To compile de uploader for distribution
+
+`grunt build`
+
 
 ## Testing
 
