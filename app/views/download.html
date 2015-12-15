@@ -1,0 +1,75 @@
+<!-- <div ui-grid="gridOptions" class="myGrid" ui-grid-auto-resize></div> -->
+<!-- <input ng-model='filterValue'/><button ng-click='filter()'>Filter</button> -->
+
+<div  class="well well-lg" id="compare">
+    <div class="row">
+        <div class="col-xs-6-offset-1">
+            <h2 class="text-right">
+                <!-- File-Sharing -->
+                <button ng-click="stepActive='metadataActive'"
+                        class="btn btn-fab btn-raised btn-material-red-900">
+                   <i class="mdi-action-language"></i>
+                </button>
+            </h2>
+            <!-- <p class="text-right">Here you can find a small guide on how to use the uploader</p> -->
+        <!-- <div class="well well-lg" ng-show="stepActive === 'uploader'" > -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3 class="text-left">
+                <button ng-click="metadataActive = !metadataActive"
+                        class="btn btn-fab btn-raised"
+                        ng-class="{'btn-material-light-green-700' : !metadataActive,
+                                   'btn-material-green-900' : metadataActive}">
+                    <i class="mdi-file-cloud-download"></i>
+                </button>
+                <strong ng-show="metadataActive">File Server</strong>
+                <span ng-hide="metadataActive">File Server</span>
+            </h3>
+        </div>
+        <h3 class="col-xs-6" >
+            <p class="container">
+                <div class="row">
+                    <!-- <p class="text-left col-xs-6">
+                        <i role="button" class="material-black mdi-file-file-download" href="metadata/metadataform_ringtrials.xlsx">
+                        </i>
+                        All
+                    </p> -->
+                    <p class="text-right col-xs-6 col-xs-offset-6">
+                        <i ng-show="metadataExampleCollapsed" role="button" class="material-white mdi-navigation-expand-more" ng-click="metadataExampleCollapsed = !metadataExampleCollapsed">
+                        </i>
+                        <i ng-hide="metadataExampleCollapsed" role="button" class="material-white mdi-navigation-expand-less" ng-click="metadataExampleCollapsed = !metadataExampleCollapsed">
+                        </i>
+                        Info
+                    </p>
+                </div>
+            </p>
+        </h3>
+    </div>
+    <div collapse="metadataExampleCollapsed">
+        <table class="table">
+        <p style="font:smaller">
+            <p>The table bellow shows an overview of the files uploaded to the server, along with metadata of each sample.</p>
+            <p>Here you can download individual file and their metadata, or simple filter the table and download a CSV file with you selection</p>
+            <!-- <p>Remember to check the tab ‘Attribute description’ indicating the required contents. In the template, each line corresponds to one sample.</p> -->
+            <!-- <p>Batch-upload is available to list information related to all relevant samples in the same spreadsheet.</p> -->
+        </p>
+          <thead>
+            <tr>
+              <th ng-repeat="column in columnsExample">{{column}}</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="danger" ng-repeat="isolate in valuesExample" style="font:smaller">
+                <td ng-repeat="(key, value) in isolate">
+                    <strong>{{ value }}</strong>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<div ui-grid="gridOptions" class="myGrid" ui-grid-auto-resize ui-grid-exporter ui-grid-resize-columns></div>
+<p id="test"></p>

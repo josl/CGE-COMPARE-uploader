@@ -8,15 +8,15 @@
  * # submitUpload
  */
 angular.module('cgeUploaderApp')
-    .directive('submitUpload', ['Upload', '$timeout', 'CalculateCheckSum', 'UID', '$http', '$httpParamSerializer',
-        function (Upload, $timeout, CalculateCheckSum, UID, $http, $httpParamSerializer) {
+    .directive('submitUpload', ['Upload', '$timeout', 'CalculateCheckSum', 'UID', '$http', '$httpParamSerializer', '$cookies',
+        function (Upload, $timeout, CalculateCheckSum, UID, $http, $httpParamSerializer, $cookies) {
             return {
                 templateUrl: 'templates/submitUpload.html',
                 restrict: 'E',
                 // scope: true,
                 link: function postLink(scope, element, attrs) {
                     var chunk_size = 1024*1024;
-
+                    var currentMetaId = null;
                     function startUpload(file, chunk_size) {
                         var uid = UID.updateUID();
                         if (!file.formData) {
@@ -24,36 +24,17 @@ angular.module('cgeUploaderApp')
                             file.formData = {
                                 file: file,
                                 test: "this is a test data",
+                                token: $cookies.get('token'),
                                 uid: uid,
                             };
                         }else {
                             console.log('I think we paused...', file.formData.upload_id);
                         }
                         return Upload.upload({
-                            url: 'http://127.0.0.1:8000/api/chunks',
+                            url: 'http://compare.cbs.dtu.dk:8000/api/chunks',
                             data: file.formData,
                             sendFieldsAs: 'form',
-                            // transformRequest: function (request, headers) {
-                            //     if (file.resume) {
-                            //         console.log('we shouldn\'t go in here!');
-                            //         var new_chunk_size = chunk_size;
-                            //         if (file.resume + chunk_size >= file.size){
-                            //             new_chunk_size = file.size - file.resume;
-                            //         }
-                            //         var end = file.resume + new_chunk_size - 1;
-                            //         file.headers.CONTENT_RANGE =
-                            //             'bytes ' + (file.resume) +
-                            //             '-' + end +
-                            //             '/' + new_chunk_size;
-                            //         console.log('bytes ' + (file.resume) +
-                            //         '-' + end +
-                            //         '/' + new_chunk_size);
-                            //         file.resume = false;
-                            //     }
-                            //     return request;
-                            // },
                             transformResponse: function (data, headers) {
-                                // console.log(data, headers());
                                 var answer = angular.fromJson(data);
                                 file.formData.upload_id = answer.upload_id;
                                 file.upload_id = file.formData.upload_id;
@@ -63,9 +44,6 @@ angular.module('cgeUploaderApp')
                                     if (answer.offset + chunk_size >= file.size){
                                         new_chunk_size = file.size - answer.offset;
                                     }
-                                    // if (new_chunk_size < chunk_size) {
-                                    //     file.upload.pause();
-                                    // }
                                     var end = answer.offset + new_chunk_size - 1;
                                     // console.log(end);
                                     file.headers.CONTENT_RANGE =
@@ -78,8 +56,9 @@ angular.module('cgeUploaderApp')
                                     console.log(file.formData.upload_id );
                                 } else {
                                     console.log(answer.detail);
+                                    file.waiting = false;
                                     scope.fileError = file.pause? scope.fileError: true;
-                                    scope.errorMessage = answer.detail? answer.detail : 'Error: Network connection';
+                                    scope.errorMessage = answer.detail !== ''? answer.detail : 'Error: Network connection';
                                 }
                             },
                             method: 'POST',
@@ -103,11 +82,16 @@ angular.module('cgeUploaderApp')
                                 '/' + new_chunk_size);
                                 return data.size;
                             }, // reads the uploaded file size from resumeSizeUrl GET response
-                            resumeSizeUrl:'http://127.0.0.1:8000/api/size?file=' +
-                                        encodeURIComponent(file.name) + '&uid=' + (file.upload_id === undefined? '' : file.upload_id),
+                            resumeSizeUrl:'http://compare.cbs.dtu.dk:8000/api/size?file=' +
+                                        encodeURIComponent(file.name) +
+                                        '&uid=' + (file.upload_id === undefined? '' : file.upload_id) +
+                                        '&token=' + $cookies.get('token'),
                         });
                     }
                     scope.upload = function (file) {
+                        var meta = file.meta;
+                        var sampleFile = file.fileUploading;
+                        var totalFiles = file.totalFiles;
                         file.upload = startUpload(file, chunk_size);
                         file.upload.then(function (response) {
                             $timeout(function () {
@@ -116,16 +100,31 @@ angular.module('cgeUploaderApp')
                                 file.waiting = true;
                                 // Send "SAVE" request with chechsum
                                 CalculateCheckSum.md5(file, chunk_size).then(function(hash){
-                                    console.log(hash, file.name);
+                                    console.log(hash, file.name, meta, sampleFile, totalFiles);
                                     $http({
-                                        url: 'http://127.0.0.1:8000/api/save',
+                                        url: 'http://compare.cbs.dtu.dk:8000/api/save',
                                         method: "POST",
                                         data: $httpParamSerializer({
                                             upload_id : file.result.upload_id,
-                                            'md5': hash
+                                            'md5': hash,
+                                            'meta': meta,
+                                            'token': $cookies.get('token'),
+                                            'sample_file': sampleFile,
+                                            'total_file': totalFiles,
+                                            'meta_id' : currentMetaId
                                         }),
                                         headers: {
                                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                        },
+                                        transformResponse: function (data, headers) {
+                                            if (sampleFile -1 < totalFiles){
+                                                console.log('File #' + sampleFile);
+                                                var answer = angular.fromJson(data);
+                                                console.log(answer);
+                                                currentMetaId = answer.meta_id;
+                                            } else {
+                                                currentMetaId = null;
+                                            }
                                         }
                                     })
                                     .then(function(response) {
@@ -133,8 +132,33 @@ angular.module('cgeUploaderApp')
                                         file.success = true;
                                         file.waiting = false;
                                         scope.paused = false;
-                                        scope.uploading = false;
-                                        scope.uploaded = true;
+
+                                        scope.filesUploaded += 1;
+                                        if (scope.filesUploaded === scope.isolateFiles.length) {
+                                            console.log('DONE! sending SAVE META');
+                                            $http({
+                                                url: 'http://compare.cbs.dtu.dk:8000/api/meta/save',
+                                                method: "POST",
+                                                data: $httpParamSerializer({
+                                                    upload_id : file.result.upload_id,
+                                                    'md5': hash,
+                                                    'meta': meta,
+                                                    'token': $cookies.get('token'),
+                                                    'meta_id' : currentMetaId
+                                                }),
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                                }
+                                            }).then(function(response) {
+                                                scope.uploaded = true;
+                                                scope.uploading = false;
+                                            });
+
+                                        } else {
+                                            console.log('we keep going...');
+                                            scope.uploading = true;
+                                        }
+                                        // scope.uploaded = true;
                                         file.paused = false;
                                         file.uploading = false;
                                         file.uploaded = true;
@@ -145,7 +169,8 @@ angular.module('cgeUploaderApp')
                                         console.log(response);
                                         scope.fileError = true;
                                         file.waiting = false;
-                                        scope.errorMessage = 'Error: ' + response.data.detail;
+                                        var answer = response.data.detail? response.data.detail : response.data;
+                                        scope.errorMessage = 'Error: ' + answer;
                                     });
                                     }
                                 );
@@ -158,33 +183,6 @@ angular.module('cgeUploaderApp')
                                 scope.errorMessage = response.detail? response.detail : 'Error: Network connection';
                             }
                         }, function (evt) {
-                            // console.log(evt.type, evt.config.__XHR.response);
-                            // if (evt.type === "load" && false &&
-                            //     evt.config.__XHR.response !== ''){
-                            //         // console.log(evt.config.__XHR.response);
-                            //         // Empty response
-                            //         var answer = angular.fromJson(evt.config.__XHR.response);
-                            //         file.formData.upload_id = answer.upload_id;
-                            //         // console.log(answer, _.keys(answer));
-                            //         if (_.isEqual(_.keys(answer), ['expires', 'upload_id', 'offset'])){
-                            //             // var end = 0;
-                            //             // if (answer.offset + chunk_size >= file.size){
-                            //             //     end = file.size -1;
-                            //             // }else{
-                            //             //     end = answer.offset + chunk_size - 1;
-                            //             // }
-                            //             var end = answer.offset + chunk_size - 1;
-                            //             file.headers.CONTENT_RANGE =
-                            //                 'bytes ' + (answer.offset) +
-                            //                 '-' + end +
-                            //                 '/' + chunk_size;
-                            //             console.log('bytes ' + (answer.offset) +
-                            //             '-' + end +
-                            //             '/' + chunk_size);
-                            //         } else {
-                            //             console.log(answer);
-                            //         }
-                            // }
                                 file.progress = Math.min(
                                     100,
                                     parseInt(100.0 * evt.loaded / evt.total));
@@ -195,87 +193,63 @@ angular.module('cgeUploaderApp')
                     scope.uploadNGUpload = function () {
                         scope.uploading = true;
                         if (scope.isolateFiles && scope.isolateFiles.length) {
+                            console.log(scope.metadata);
+                            var index = 0;
+                            var filesCounterInSample = 0;
                             angular.forEach(scope.isolateFiles, function(file) {
                                 if (!file.$error) {
+                                    file.totalFiles = scope.metadata[index].file_names.split(' ').length;
                                     file.headers = {};
-                                    scope.upload(file);
-                                    // file.upload = startDownload(file, chunk_size);
-                                    // file.upload.then(function (response) {
-                                    //     $timeout(function () {
-                                    //         console.log("Done", response);
-                                    //         file.result = response.config.data;
-                                    //         file.waiting = true;
-                                    //         // Send "SAVE" request with chechsum
-                                    //         CalculateCheckSum.md5(file, chunk_size).then(function(hash){
-                                    //             console.log(hash, file.name);
-                                    //             $http({
-                                    //                 url: 'http://127.0.0.1:8000/api/save',
-                                    //                 method: "POST",
-                                    //                 data: $httpParamSerializer({
-                                    //                     upload_id : file.result.upload_id,
-                                    //                     'md5': hash
-                                    //                 }),
-                                    //                 headers: {
-                                    //                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                    //                 }
-                                    //             })
-                                    //             .then(function(response) {
-                                    //                 // success
-                                    //                 file.success = true;
-                                    //                 file.waiting = false;
-                                    //                 console.log(file.progress, response);
-                                    //             },
-                                    //             function(response) {
-                                    //                         // failed
-                                    //                 console.log(response);
-                                    //                 scope.fileError = true;
-                                    //                 file.waiting = false;
-                                    //                 scope.errorMessage = 'Error: ' + response.data.detail;
-                                    //             });
-                                    //             }
-                                    //         );
-                                    //     });
-                                    // }, function (response) {
-                                    //     scope.fileError = true;
-                                    //     scope.errorMessage = 'Error: Network connection';
-                                    // }, function (evt) {
-                                    //     // console.log(evt.type, evt.config.__XHR.response);
-                                    //     // if (evt.type === "load" && false &&
-                                    //     //     evt.config.__XHR.response !== ''){
-                                    //     //         // console.log(evt.config.__XHR.response);
-                                    //     //         // Empty response
-                                    //     //         var answer = angular.fromJson(evt.config.__XHR.response);
-                                    //     //         file.formData.upload_id = answer.upload_id;
-                                    //     //         // console.log(answer, _.keys(answer));
-                                    //     //         if (_.isEqual(_.keys(answer), ['expires', 'upload_id', 'offset'])){
-                                    //     //             // var end = 0;
-                                    //     //             // if (answer.offset + chunk_size >= file.size){
-                                    //     //             //     end = file.size -1;
-                                    //     //             // }else{
-                                    //     //             //     end = answer.offset + chunk_size - 1;
-                                    //     //             // }
-                                    //     //             var end = answer.offset + chunk_size - 1;
-                                    //     //             file.headers.CONTENT_RANGE =
-                                    //     //                 'bytes ' + (answer.offset) +
-                                    //     //                 '-' + end +
-                                    //     //                 '/' + chunk_size;
-                                    //     //             console.log('bytes ' + (answer.offset) +
-                                    //     //             '-' + end +
-                                    //     //             '/' + chunk_size);
-                                    //     //         } else {
-                                    //     //             console.log(answer);
-                                    //     //         }
-                                    //     // }
-                                    //     file.progress = Math.min(
-                                    //         100,
-                                    //         parseInt(100.0 * evt.loaded / evt.total));
-                                    //     }
-                                    // );
+                                    filesCounterInSample+=1;
+                                    file.meta = scope.metadata[index];
+                                    file.fileUploading = filesCounterInSample;
+                                    // scope.upload(file);
+                                    if (filesCounterInSample === file.totalFiles){
+                                        index+=1;
+                                        filesCounterInSample = 0;
+                                    }
                                 }
                             });
-
+                            angular.forEach(scope.isolateFiles, function(file) {
+                                    scope.upload(file);
+                            });
                         }
                     };
+                    // scope.uploadNGUpload = function () {
+                    //     scope.uploading = true;
+                    //     var filesPending = true;
+                    //     var goToNext = true;
+                    //     while (filesPending) {
+                    //         if (goToNext){
+                    //              goToNext = false;
+                    //             if (scope.isolateFiles && scope.isolateFiles.length) {
+                    //                 console.log(scope.metadata);
+                    //                 var metaindex = 0;
+                    //                 var fileindex = 0;
+                    //                 var filesCounterInSample = 0;
+                    //                 var file = scope.isolateFiles[fileindex];
+                    //                 if (!file.$error) {
+                    //                     file.totalFiles = scope.metadata[metaindex].file_names.split(' ').length;
+                    //                     file.headers = {};
+                    //                     filesCounterInSample+=1;
+                    //                     file.meta = scope.metadata[metaindex];
+                    //                     file.fileUploading = filesCounterInSample;
+                    //                     var promise = scope.upload(file);
+                    //                     promise.then(function () {
+                    //                         if (filesCounterInSample === file.totalFiles){
+                    //                             goToNext = true;
+                    //                             metaindex+=1;
+                    //                             filesCounterInSample = 0;
+                    //                         } else {
+                    //                             fileindex += 1;
+                    //                         }
+                    //                     });
+                    //                 }
+                    //             }
+                    //         }
+                    //
+                    //     }
+                    // };
                 }
             };
         }

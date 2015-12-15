@@ -1,9 +1,9 @@
-<div ng-controller="Batchuploader2Ctrl">
+<div ng-controller="UploadCtrl">
     <div  class="well well-lg" id="compare">
         <div class="row">
             <div class="col-xs-6-offset-1">
                 <h2 class="text-right">
-                    ENGAGE File-sharing
+                    <!-- File-Sharing -->
                     <button ng-click="stepActive='metadataActive'"
                             class="btn btn-fab btn-raised btn-material-red-900">
                        <i class="mdi-action-language"></i>
@@ -22,16 +22,16 @@
                                        'btn-material-green-900' : metadataActive}">
                         <i class="mdi-editor-insert-chart"></i>
                     </button>
-                    <strong ng-show="metadataActive">Metadata Sheet</strong>
-                    <span ng-hide="metadataActive">Metadata Sheet</span>
+                    <strong ng-show="metadataActive">Metadata</strong>
+                    <span ng-hide="metadataActive">Metadata</span>
                 </h3>
             </div>
             <h3 class="col-xs-6" >
                 <p class="container">
                     <div class="row">
                         <p class="text-left col-xs-6">
-                            <i role="button" class="material-black mdi-file-file-download" href="metadata/metadataform_ringtrials.xlsx">
-                            </i>
+                            <a type="button" role="button" class="material-black mdi-file-file-download" href="metadata/metadataform_ringtrials.xlsx">
+                            </a>
                             Sheet
                         </p>
                         <p class="text-right col-xs-6">
@@ -68,7 +68,7 @@
             </table>
         </div>
     </div>
-  <metadata file="ringTrials" ng-show="metadataActive"></metadata>
+  <metadata file="batch" ng-show="metadataActive"></metadata>
   <div class="well well-lg">
       <h3>
           <button ng-click="uploaderActive = !uploaderActive"
@@ -77,8 +77,8 @@
                              'btn-material-blue-900' : uploaderActive}">
               <i class="mdi-action-note-add"></i>
           </button>
-          <strong ng-show="uploaderActive">Isolate Files</strong>
-          <span ng-hide="uploaderActive">Isolate Files</span>
+          <strong ng-show="uploaderActive">Sequences</strong>
+          <span ng-hide="uploaderActive">Sequences</span>
       </h3>
   </div>
   <div class="well well-lg animate-hide" ng-hide="!uploaderActive" >

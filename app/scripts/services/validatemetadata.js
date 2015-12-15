@@ -8,8 +8,8 @@
  * Service in the cgeUploaderApp.
  */
 angular.module('cgeUploaderApp')
-  .service('ValidateMetadata', ['LoadMetadata', '$q',
-  function (LoadMetadata, $q) {
+  .service('ValidateMetadata', ['LoadMetadata', '$q', 'UID',
+  function (LoadMetadata, $q, UID) {
     // AngularJS will instantiate a singleton by calling 'new' on this function
     this.parse = function (metadata, file){
         var deferred = $q.defer();
@@ -42,6 +42,7 @@ angular.module('cgeUploaderApp')
                     _.map(difference, function(){ return ''; })
                 );
                 _.extendOwn(isolateMetadata, emptyIsolate);
+                isolateMetadata.meta_uid = UID.updateUID();
                 // Validate mandatory fields
                 angular.forEach(template.mandatory, function(key){
                     var allowedValues = template.columns[key];
@@ -94,6 +95,7 @@ angular.module('cgeUploaderApp')
                         }
                         column += 1;
                     });
+
                 // Validate values
                 line += 1;
             });

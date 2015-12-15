@@ -1,0 +1,54 @@
+<div  class="well well-lg" id="compare">
+    <div class="row">
+        <div class="col-xs-6-offset-1">
+            <h2 class="text-right">
+                <!-- File-Sharing -->
+                <button ng-click="stepActive='metadataActive'"
+                        class="btn btn-fab btn-raised btn-material-red-900">
+                   <i class="mdi-action-language"></i>
+                </button>
+            </h2>
+            <!-- <p class="text-right">Here you can find a small guide on how to use the uploader</p> -->
+        <!-- <div class="well well-lg" ng-show="stepActive === 'uploader'" > -->
+        </div>
+    </div>
+</div>
+<div class="well well-lg">
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3">
+            <h2>Login</h2>
+            <form name="form" ng-submit="loginUser()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" ng-model="username" required />
+                    <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
+                    <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-xs-3">
+                    <!-- <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-default">Login</button> -->
+                            <button ng-disabled="form.$invalid || dataLoading" ng-click="stepActive='metadataActive'"
+                                    class="btn btn-fab btn-raised btn-material-blue-900">
+                               <i class="mdi-action-account-circle"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-9" style="margin-top:18px;" ng-show="error || isAuthenticated">
+                              <span class="label label-warning" ng-show="error">
+                                  <span class="sr-only">Error:</span>
+                                  <span>{{loginError}}</span>
+                              </span>
+                              <span class="label label-success" ng-show="isAuthenticated">
+                                  <span>User authenticated!</span>
+                              </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -74,9 +74,13 @@ body {
 }
 
 .myGrid {
-    width: 994px;
+    /*width: 994px;*/
     height: 250px;
   }
+
+.ui-grid-menu-button .ui-grid-menu .ui-grid-menu-mid {
+    max-height: 220px;
+}
 
 .well-green{
   background-color: #e9f5e6;
@@ -152,18 +156,33 @@ body {
     100% {background-color: green;}
 }
 
-/* Waiting Animation */
-.glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
-    -webkit-animation: spin2 .7s infinite linear;
-}
-
-@-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+#compare{
+    background-image: url("/images/compare-logo.jpg");
+    background-repeat: no-repeat;
+    background-size: 300px;
+    background-position-x: 50%;
+}
+
+#header {
+    background-color: lightslategrey;
+}
+
+.file-download {
+    margin: 0;
+    padding: 0;
 }
