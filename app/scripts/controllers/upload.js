@@ -23,7 +23,6 @@ angular.module('cgeUploaderApp')
           "sequencing_platform",
           "sequencing_type",
           "email_address",
-          "reference"
       ];
       $scope.valuesExample = [{
           "sample_name": "Sample_1",
@@ -32,7 +31,6 @@ angular.module('cgeUploaderApp')
           "sequencing_platform": "Illumina",
           "sequencing_type": "paired",
           "email_address": "my@email.com",
-          "reference": "CFSAN018751"
       }];
       $scope.metadataExampleCollapsed = true;
       $scope.stepActive = 'metadata';

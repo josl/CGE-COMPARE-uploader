@@ -31,7 +31,7 @@ angular.module('cgeUploaderApp')
                             console.log('I think we paused...', file.formData.upload_id);
                         }
                         return Upload.upload({
-                            url: 'http://compare.cbs.dtu.dk:8000/api/chunks',
+                            url: 'http://127.0.0.1:8000/api/chunks',
                             data: file.formData,
                             sendFieldsAs: 'form',
                             transformResponse: function (data, headers) {
@@ -82,7 +82,7 @@ angular.module('cgeUploaderApp')
                                 '/' + new_chunk_size);
                                 return data.size;
                             }, // reads the uploaded file size from resumeSizeUrl GET response
-                            resumeSizeUrl:'http://compare.cbs.dtu.dk:8000/api/size?file=' +
+                            resumeSizeUrl:'http://127.0.0.1:8000/api/size?file=' +
                                         encodeURIComponent(file.name) +
                                         '&uid=' + (file.upload_id === undefined? '' : file.upload_id) +
                                         '&token=' + $cookies.get('token'),
@@ -102,7 +102,7 @@ angular.module('cgeUploaderApp')
                                 CalculateCheckSum.md5(file, chunk_size).then(function(hash){
                                     console.log(hash, file.name, meta, sampleFile, totalFiles);
                                     $http({
-                                        url: 'http://compare.cbs.dtu.dk:8000/api/save',
+                                        url: 'http://127.0.0.1:8000/api/save',
                                         method: "POST",
                                         data: $httpParamSerializer({
                                             upload_id : file.result.upload_id,
@@ -135,29 +135,30 @@ angular.module('cgeUploaderApp')
 
                                         scope.filesUploaded += 1;
                                         if (scope.filesUploaded === scope.isolateFiles.length) {
-                                            console.log('DONE! sending SAVE META');
-                                            $http({
-                                                url: 'http://compare.cbs.dtu.dk:8000/api/meta/save',
-                                                method: "POST",
-                                                data: $httpParamSerializer({
-                                                    upload_id : file.result.upload_id,
-                                                    'md5': hash,
-                                                    'meta': meta,
-                                                    'token': $cookies.get('token'),
-                                                    'meta_id' : currentMetaId
-                                                }),
-                                                headers: {
-                                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                                }
-                                            }).then(function(response) {
-                                                scope.uploaded = true;
-                                                scope.uploading = false;
-                                            });
-
+                                            scope.uploaded = true;
+                                            scope.uploading = false;
                                         } else {
                                             console.log('we keep going...');
                                             scope.uploading = true;
                                         }
+
+                                        console.log('DONE! sending SAVE META');
+                                        $http({
+                                            url: 'http://127.0.0.1:8000/api/meta/save',
+                                            method: "POST",
+                                            data: $httpParamSerializer({
+                                                upload_id : file.result.upload_id,
+                                                'md5': hash,
+                                                'meta': meta,
+                                                'token': $cookies.get('token'),
+                                                'meta_id' : currentMetaId
+                                            }),
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                            }
+                                        }).then(function(response) {
+                                            console.log('Meta saved!');
+                                        });
                                         // scope.uploaded = true;
                                         file.paused = false;
                                         file.uploading = false;
@@ -167,7 +168,9 @@ angular.module('cgeUploaderApp')
                                     function(response) {
                                                 // failed
                                         console.log(response);
-                                        scope.fileError = true;
+                                        file.error = true;
+                                        file.paused = true;
+                                        // scope.fileError = true;
                                         file.waiting = false;
                                         var answer = response.data.detail? response.data.detail : response.data;
                                         scope.errorMessage = 'Error: ' + answer;

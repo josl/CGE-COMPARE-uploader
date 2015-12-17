@@ -30,46 +30,6 @@ angular
         $httpProvider.interceptors.push('AuthInterceptor');
 
         $routeProvider
-            // .when('/about', {
-            //     templateUrl: 'views/about.html',
-            //     controller: 'AboutCtrl',
-            //     controllerAs: 'about'
-            // })
-            // .when('/ringTrials', {
-            //     templateUrl: 'views/ringtrials.html',
-            //     controller: 'RingtrialsCtrl',
-            //     controllerAs: 'ringTrials'
-            // })
-            // .when('/batchUpload', {
-            //     templateUrl: 'views/batchupload.html',
-            //     controller: 'BatchuploadCtrl',
-            //     controllerAs: 'batchUpload'
-            // })
-            // .when('/batchUploader', {
-            //     templateUrl: 'views/batchuploader.html',
-            //     controller: 'BatchuploaderCtrl',
-            //     controllerAs: 'batchUploader'
-            // })
-            // .when('/serviceUploader', {
-            //     templateUrl: 'views/serviceuploader.html',
-            //     controller: 'ServiceuploaderCtrl',
-            //     controllerAs: 'serviceUploader'
-            // })
-            // .when('/about', {
-            //     templateUrl: 'views/about.html',
-            //     controller: 'AboutCtrl',
-            //     controllerAs: 'about'
-            // })
-            // .when('/batchUploader2', {
-            //     templateUrl: 'views/batchuploader2.html',
-            //     controller: 'Batchuploader2Ctrl',
-            //     controllerAs: 'batchUploader2'
-            // })
-            // .when('/file-sharing', {
-            //     templateUrl: 'views/file-sharing.html',
-            //     controller: 'FileSharingCtrl',
-            //     controllerAs: 'fileSharing'
-            // })
             .when('/upload', {
                 templateUrl: 'views/upload.html',
                 controller: 'UploadCtrl',
