@@ -26,7 +26,7 @@ angular.module('cgeUploaderApp')
           $scope.gridOptions = {
               showGridFooter: true,
               enableSorting: true,
-               enableFiltering: true,
+              enableFiltering: true,
               cellEditableCondition: true,
               exporterMenuCsv: true,
               exporterMenuPdf: false,

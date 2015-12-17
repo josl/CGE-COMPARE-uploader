@@ -16,7 +16,7 @@ angular.module('cgeUploaderApp')
                 scope.gridOptions = {
                     showGridFooter: true,
                     enableSorting: true,
-                    cellEditableCondition: true
+                    cellEditableCondition: true,
                 };
 
                 scope.visible = attrs.visible;
