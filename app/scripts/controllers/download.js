@@ -18,7 +18,7 @@ angular.module('cgeUploaderApp')
                 console.log(row.entity.meta_id);
                 var element = angular.element('#' + row.entity.meta_id);
                    element.attr({
-                      href: 'http://127.0.0.1:8000/api/file?' +'token=' + $cookies.get('token') + '&file_id='+file_id,
+                      href: 'http://compare.cbs.dtu.dk:8890/api/file?' +'token=' + $cookies.get('token') + '&file_id='+file_id,
                       target: '_self',
                       download:'file.data'
                    })[0].click();
@@ -78,7 +78,7 @@ angular.module('cgeUploaderApp')
           };
 
           $http({
-              url: 'http://127.0.0.1:8000/api/data',
+              url: 'http://compare.cbs.dtu.dk:8890/api/data',
               method: 'GET',
               params: {'token': $cookies.get('token')},
               headers: {

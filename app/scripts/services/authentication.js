@@ -12,7 +12,7 @@ angular.module('cgeUploaderApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
     this.login = function Login(username, password, callbackSuccess, callbackError) {
         console.log(username, password);
-        $http.post('http://127.0.0.1:8000/login/',
+        $http.post('http://compare.cbs.dtu.dk:8890/login/',
             {
                 username: username,
                 password: password ,
