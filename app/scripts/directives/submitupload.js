@@ -31,7 +31,7 @@ angular.module('cgeUploaderApp')
                             console.log('I think we paused...', file.formData.upload_id);
                         }
                         return Upload.upload({
-                            url: 'http://127.0.0.1:8000/api/chunks',
+                            url: 'http://compare.cbs.dtu.dk:8890/api/chunks',
                             data: file.formData,
                             sendFieldsAs: 'form',
                             transformResponse: function (data, headers) {
@@ -82,7 +82,7 @@ angular.module('cgeUploaderApp')
                                 '/' + new_chunk_size);
                                 return data.size;
                             }, // reads the uploaded file size from resumeSizeUrl GET response
-                            resumeSizeUrl:'http://127.0.0.1:8000/api/size?file=' +
+                            resumeSizeUrl:'http://compare.cbs.dtu.dk:8890/api/size?file=' +
                                         encodeURIComponent(file.name) +
                                         '&uid=' + (file.upload_id === undefined? '' : file.upload_id) +
                                         '&token=' + $cookies.get('token'),
@@ -102,7 +102,7 @@ angular.module('cgeUploaderApp')
                                 CalculateCheckSum.md5(file, chunk_size).then(function(hash){
                                     console.log(hash, file.name, meta, sampleFile, totalFiles);
                                     $http({
-                                        url: 'http://127.0.0.1:8000/api/save',
+                                        url: 'http://compare.cbs.dtu.dk:8890/api/save',
                                         method: "POST",
                                         data: $httpParamSerializer({
                                             upload_id : file.result.upload_id,
@@ -144,7 +144,7 @@ angular.module('cgeUploaderApp')
 
                                         console.log('DONE! sending SAVE META');
                                         $http({
-                                            url: 'http://127.0.0.1:8000/api/meta/save',
+                                            url: 'http://compare.cbs.dtu.dk:8890/api/meta/save',
                                             method: "POST",
                                             data: $httpParamSerializer({
                                                 upload_id : file.result.upload_id,
