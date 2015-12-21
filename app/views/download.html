@@ -1,6 +1,3 @@
-<!-- <div ui-grid="gridOptions" class="myGrid" ui-grid-auto-resize></div> -->
-<!-- <input ng-model='filterValue'/><button ng-click='filter()'>Filter</button> -->
-
 <div  class="well well-lg" id="compare">
     <div class="row">
         <div class="col-xs-6-offset-1">
@@ -11,8 +8,6 @@
                    <i class="mdi-action-language"></i>
                 </button>
             </h2>
-            <!-- <p class="text-right">Here you can find a small guide on how to use the uploader</p> -->
-        <!-- <div class="well well-lg" ng-show="stepActive === 'uploader'" > -->
         </div>
     </div>
     <div class="row">
@@ -31,11 +26,6 @@
         <h3 class="col-xs-6" >
             <p class="container">
                 <div class="row">
-                    <!-- <p class="text-left col-xs-6">
-                        <i role="button" class="material-black mdi-file-file-download" href="metadata/metadataform_ringtrials.xlsx">
-                        </i>
-                        All
-                    </p> -->
                     <p class="text-right col-xs-6 col-xs-offset-6">
                         <i ng-show="metadataExampleCollapsed" role="button" class="material-white mdi-navigation-expand-more" ng-click="metadataExampleCollapsed = !metadataExampleCollapsed">
                         </i>
@@ -52,8 +42,6 @@
         <p style="font:smaller">
             <p>The table bellow shows an overview of the files uploaded to the server, along with metadata of each sample.</p>
             <p>Here you can download individual file and their metadata, or simple filter the table and download a CSV file with you selection</p>
-            <!-- <p>Remember to check the tab ‘Attribute description’ indicating the required contents. In the template, each line corresponds to one sample.</p> -->
-            <!-- <p>Batch-upload is available to list information related to all relevant samples in the same spreadsheet.</p> -->
         </p>
           <thead>
             <tr>
@@ -70,6 +58,17 @@
         </table>
     </div>
 </div>
-
+<div ng-show="error"
+     class="well well-lg text-center"
+     ng-class="{'well-material-orange': error}">
+    <h3>
+        <p style="color:#B71C1C">
+            <i role="button"
+               class="mdi-action-account-circle">
+            </i>
+            <strong>{{errorMessage}}</strong>
+        </p>
+    </h3>
+</div>
 <div ui-grid="gridOptions" class="myGrid" ui-grid-auto-resize ui-grid-exporter ui-grid-resize-columns></div>
 <p id="test"></p>

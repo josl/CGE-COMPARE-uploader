@@ -10,7 +10,8 @@
 angular.module('cgeUploaderApp')
   .controller('MainCtrl', ['$scope', '$window', '$cookies', '$rootScope', 'User', function ($scope, $window, $cookies, $rootScope, User) {
 
-      $scope.loggedin = $cookies.get('token') || $cookies.get('token') !== undefined || User.loggedIn ? true : false;
+      console.log($cookies.get('token'));
+      $scope.loggedin = $cookies.get('token') || User.loggedIn ? true : false;
       $scope.active = $scope.loggedin? 'upload' : 'login';
       console.log($cookies.get('token'));
       $scope.user = $cookies.get('user');
@@ -27,6 +28,14 @@ angular.module('cgeUploaderApp')
       $scope.$on('nameUpdated', function() {
          $scope.user = User.name;
          $scope.loggedin = User.loggedIn;
+         console.log($scope.user);
+      });
+
+      $scope.$on('newLogin', function() {
+         $scope.user = '';
+         $scope.loggedin = false;
+         $cookies.remove('token');
+         $cookies.remove('user');
          console.log($scope.user);
       });
   }]);
