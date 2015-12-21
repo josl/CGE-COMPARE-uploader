@@ -16,8 +16,8 @@ angular.module('cgeUploaderApp')
         '$cookies',
         '$rootScope',
         'User',
-        function (AuthenticationService, $scope, $location, $window, $cookies, $rootScope, User) {
-
+        function (AuthenticationService, $scope, $location, $window, $cookies,
+                  $rootScope, User) {
             $scope.isAuthenticated = false;
             $scope.error = false;
             $scope.loginUser = function() {
@@ -25,8 +25,6 @@ angular.module('cgeUploaderApp')
                 $scope.dataLoading = true;
                 AuthenticationService.login($scope.username, $scope.password,
                     function (data, status, headers, config) {
-                        // $window.sessionStorage.token = data.token;
-                        // $localStorage.token = data.token;
                         $cookies.put('token', data.token);
                         $cookies.put('user', $scope.username);
                         $scope.isAuthenticated = true;
@@ -34,7 +32,6 @@ angular.module('cgeUploaderApp')
                         $location.path('/upload');
                         console.log($scope.username);
                         User.setName($scope.username);
-                        // User.loggedIn = true;
                         console.log(User);
                         $rootScope.$emit('loggedIn');
                     },

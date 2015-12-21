@@ -23,7 +23,8 @@ angular
         'ui.grid.resizeColumns',
         'ui.grid.autoResize',
         'ui.grid.exporter',
-        'ui.bootstrap.collapse'
+        'ui.bootstrap.collapse',
+        'cgeUploaderApp.config',
     ])
     .config(function ($routeProvider, $httpProvider) {
 
@@ -53,19 +54,37 @@ angular
         //   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         //   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     })
-    .run(function ($rootScope, $location, $cookies, $http, $window) {
+    .run(function ($rootScope, $location, $cookies, $http, $window, AuthenticationService) {
          // keep user logged in after page refresh
          $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            //  var token = $window.sessionStorage.token || null;
-             var token = $cookies.get('token') || null;
+             console.log($cookies.get('token'));
+             var token = $cookies.get('token') || false;
              console.log(token);
              // redirect to login page if not logged in and trying to access a restricted page
              var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
              var loggedIn = token;
-             if (restrictedPage && (!loggedIn || loggedIn === 'undefined')) {
+             console.log(restrictedPage, loggedIn);
+             if (restrictedPage && !loggedIn) {
+                 $cookies.remove('token');
+                 $rootScope.$broadcast('newLogin');
                  $location.path('/login');
              } else {
-                 console.log('yuhu!');
+                 console.log('Token exists!');
+                 // Try to refresh token
+                 if (token) {
+                     AuthenticationService.refresh(
+                         function (data, status, headers, config) {
+                             console.log('token refreshed!', data);
+                             $cookies.put('token', angular.fromJson(data).token);
+                         },
+                         function (data, status, headers, config) {
+                             console.log('error');
+                             $cookies.remove('token');
+                             $rootScope.$broadcast('newLogin');
+                             $location.path('/login');
+                         }
+                     );
+                 }
              }
          });
     });

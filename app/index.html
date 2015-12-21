@@ -27,11 +27,6 @@
         <!-- Header -->
         <div ng-controller="MainCtrl" class="navbar navbar-grey" id="header">
           <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <!-- <div class="navbar-header">
-              <a class="navbar-brand" href="#">Menu</a>
-            </div> -->
-
             <!-- Collect the nav links, forms, and other content for toggling -->
               <ul class="nav navbar-nav">
                 <li ng-class="{'active': active === 'upload'}" ng-click="active='upload'"><a href="#/upload">Upload</a></li>
@@ -40,16 +35,9 @@
                   <li ng-class="{'active': active === 'download'}" ng-click="active='download'"><a href="#/download">Download</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                  <li ng-show="loggedin" ng-click="logout();"><a href="#/login">Logout (<strong>{{user}}</strong>) </a></li>
+                  <li ng-show="loggedin" ng-click="logout();"><a href="#/login"><strong>{{user}}</strong> (logout) </a></li>
                   <li ng-hide="loggedin"><a href="#/upload">Login</a></li>
               </ul>
-              <!-- <ul class="nav navbar-nav navbar-right">
-                  <li ng-show="loggedin"> <a>< </a></li>
-              </ul> -->
-              <!-- <ul class="nav navbar-nav navbar-right" ng-hide="loggedin">
-                  <li ng-class="{'active': active === 'login'}" ng-click="active='login'"><a href="#/login">Login</a></li>
-              </ul> -->
-
           </div><!-- /.container-fluid -->
         </div>
 
@@ -136,7 +124,8 @@
     <script src="bower_components/jsSHA/src/sha.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
+        <!-- Outside built scripts.js to avoid problems compiling -->
+        <script src="scripts/config.js"></script>
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
@@ -160,6 +149,7 @@
         <script src="scripts/services/authentication.js"></script>
         <script src="scripts/services/authinterceptor.js"></script>
         <script src="scripts/services/user.js"></script>
+        <script src="scripts/services/filemetadata.js"></script>
         <!-- endbuild -->
 </body>
 </html>
