@@ -30,7 +30,7 @@
           <span ng-show="f.error">
             <i class="glyphicon glyphicon-remove"></i>
           </span>
-          <span ng-show="f.waiting">
+          <span ng-show="f.progress > 0 && !f.pause && !f.uploaded">
               <span class="spinner-loader"></span> {{f.progress}}
           </span>
         </td>
