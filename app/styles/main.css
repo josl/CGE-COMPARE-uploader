@@ -171,8 +171,15 @@ body {
     to { -webkit-transform: rotate(360deg); }
 }
 
-#compare{
+.compare{
     background-image: url("/images/compare-logo.jpg");
+    background-repeat: no-repeat;
+    background-size: 300px;
+    background-position-x: 50%;
+}
+
+.engage{
+    background-image: url("/images/engage-logo.jpg");
     background-repeat: no-repeat;
     background-size: 300px;
     background-position-x: 50%;

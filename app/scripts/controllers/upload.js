@@ -8,7 +8,7 @@
  * Controller of the cgeUploaderApp
  */
 angular.module('cgeUploaderApp')
-  .controller('UploadCtrl', function ($scope) {
+  .controller('UploadCtrl', ['$scope', 'SITE', function ($scope, SITE) {
       $scope.isolateFiles = [];
       $scope.excelStatus = 'init';
       $scope.filesValid = true;
@@ -32,6 +32,7 @@ angular.module('cgeUploaderApp')
           "sequencing_type": "paired",
           "email_address": "my@email.com",
       }];
+      $scope.site = SITE.url;
       $scope.metadataExampleCollapsed = true;
       $scope.stepActive = 'metadata';
       $scope.fileError = false;
@@ -41,4 +42,4 @@ angular.module('cgeUploaderApp')
       $scope.uploading = false;
       $scope.uploaded = false;
       $scope.filesUploaded = 0;
-  });
+  }]);

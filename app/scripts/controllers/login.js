@@ -16,10 +16,13 @@ angular.module('cgeUploaderApp')
         '$cookies',
         '$rootScope',
         'User',
+        'SITE',
         function (AuthenticationService, $scope, $location, $window, $cookies,
-                  $rootScope, User) {
+                  $rootScope, User, SITE) {
             $scope.isAuthenticated = false;
             $scope.error = false;
+            $scope.site = SITE.url;
+            console.log($scope.site);
             $scope.loginUser = function() {
                 console.log('lala');
                 $scope.dataLoading = true;
@@ -29,7 +32,7 @@ angular.module('cgeUploaderApp')
                         $cookies.put('user', $scope.username);
                         $scope.isAuthenticated = true;
                         console.log(data);
-                        $location.path('/upload');
+                        $location.path('/' + SITE.url + 'upload');
                         console.log($scope.username);
                         User.setName($scope.username);
                         console.log(User);

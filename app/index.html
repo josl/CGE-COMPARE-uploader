@@ -29,14 +29,14 @@
           <div class="container-fluid">
             <!-- Collect the nav links, forms, and other content for toggling -->
               <ul class="nav navbar-nav">
-                <li ng-class="{'active': active === 'upload'}" ng-click="active='upload'"><a href="#/upload">Upload</a></li>
+                <li ng-class="{'active': active === 'upload'}" ng-click="active='upload'"><a href="#/{{siteUrl}}upload">Upload</a></li>
               </ul>
               <ul class="nav navbar-nav">
-                  <li ng-class="{'active': active === 'download'}" ng-click="active='download'"><a href="#/download">Download</a></li>
+                  <li ng-class="{'active': active === 'download'}" ng-click="active='download'"><a href="#/{{siteUrl}}download">Download</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                  <li ng-show="loggedin" ng-click="logout();"><a href="#/login"><strong>{{user}}</strong> (logout) </a></li>
-                  <li ng-hide="loggedin"><a href="#/upload">Login</a></li>
+                  <li ng-show="loggedin" ng-click="logout();"><a href="#/{{siteUrl}}login"><strong>{{user}}</strong> (logout) </a></li>
+                  <li ng-hide="loggedin"><a href="#/{{siteUrl}}upload">Login</a></li>
               </ul>
           </div><!-- /.container-fluid -->
         </div>
@@ -129,9 +129,7 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/ringtrials.js"></script>
-        <script src="scripts/controllers/batchuploader.js"></script>
         <script src="scripts/controllers/serviceuploader.js"></script>
         <script src="scripts/directives/uploaderprogress.js"></script>
         <script src="scripts/directives/dropfilesbutton.js"></script>
@@ -140,9 +138,7 @@
         <script src="scripts/directives/metadata.js"></script>
         <script src="scripts/services/validatemetadata.js"></script>
         <script src="scripts/services/loadmetadata.js"></script>
-        <script src="scripts/controllers/batchuploader2.js"></script>
         <script src="scripts/services/calculatechecksum.js"></script>
-        <script src="scripts/controllers/file-sharing.js"></script>
         <script src="scripts/controllers/upload.js"></script>
         <script src="scripts/controllers/download.js"></script>
         <script src="scripts/controllers/login.js"></script>
@@ -150,6 +146,7 @@
         <script src="scripts/services/authinterceptor.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/services/filemetadata.js"></script>
+        <script src="scripts/services/gridmetadata.js"></script>
         <!-- endbuild -->
 </body>
 </html>

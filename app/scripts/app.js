@@ -26,48 +26,64 @@ angular
         'ui.bootstrap.collapse',
         'cgeUploaderApp.config',
     ])
-    .config(function ($routeProvider, $httpProvider) {
+    .config(function ($routeProvider, $httpProvider, SITE) {
 
         $httpProvider.interceptors.push('AuthInterceptor');
 
         $routeProvider
-            .when('/upload', {
+            .when('/compareupload', {
                 templateUrl: 'views/upload.html',
                 controller: 'UploadCtrl',
                 controllerAs: 'upload'
             })
-            .when('/download', {
+            .when('/comparedownload', {
                 templateUrl: 'views/download.html',
                 controller: 'DownloadCtrl',
                 controllerAs: 'download'
             })
-            .when('/login', {
+            .when('/comparelogin', {
+              templateUrl: 'views/login.html',
+              controller: 'LoginCtrl',
+              controllerAs: 'login'
+            })
+            .when('/engageupload', {
+                templateUrl: 'views/upload.html',
+                controller: 'UploadCtrl',
+                controllerAs: 'upload'
+            })
+            .when('/engagedownload', {
+                templateUrl: 'views/download.html',
+                controller: 'DownloadCtrl',
+                controllerAs: 'download'
+            })
+            .when('/engagelogin', {
               templateUrl: 'views/login.html',
               controller: 'LoginCtrl',
               controllerAs: 'login'
             })
             .otherwise({
-                redirectTo: '/upload'
-            });
+                redirectTo: '/' + SITE.url + 'login'
+            })
+            ;
         // Cross Site Request Forgery protection
         //   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         //   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         //   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     })
-    .run(function ($rootScope, $location, $cookies, $http, $window, AuthenticationService) {
+    .run(function ($rootScope, $location, $cookies, $http, $window, AuthenticationService, SITE) {
          // keep user logged in after page refresh
          $rootScope.$on('$locationChangeStart', function (event, next, current) {
              console.log($cookies.get('token'));
              var token = $cookies.get('token') || false;
              console.log(token);
              // redirect to login page if not logged in and trying to access a restricted page
-             var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+             var restrictedPage = $.inArray($location.path(), ['/' + SITE.url + 'login']) === -1;
              var loggedIn = token;
              console.log(restrictedPage, loggedIn);
              if (restrictedPage && !loggedIn) {
                  $cookies.remove('token');
                  $rootScope.$broadcast('newLogin');
-                 $location.path('/login');
+                 $location.path('/' + SITE.url + 'login');
              } else {
                  console.log('Token exists!');
                  // Try to refresh token
@@ -81,7 +97,7 @@ angular
                              console.log('error');
                              $cookies.remove('token');
                              $rootScope.$broadcast('newLogin');
-                             $location.path('/login');
+                             $location.path('/' + SITE.url + 'login');
                          }
                      );
                  }
