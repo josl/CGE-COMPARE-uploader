@@ -58,7 +58,7 @@ angular.module('cgeUploaderApp')
                                     $cookies.put('token', answer.token);
                                     var end = answer.offset + new_chunk_size - 1;
                                     // console.log(end);
-                                    file.headers.CONTENT_RANGE =
+                                    file.headers['Content-Range'] =
                                         'bytes ' + (answer.offset) +
                                         '-' + end +
                                         '/' + new_chunk_size;
@@ -87,7 +87,7 @@ angular.module('cgeUploaderApp')
                                     new_chunk_size = file.size - file.resume;
                                 }
                                 var end = file.resume + new_chunk_size - 1;
-                                file.headers.CONTENT_RANGE =
+                                file.headers['Content-Range'] =
                                     'bytes ' + (file.resume) +
                                     '-' + end +
                                     '/' + new_chunk_size;

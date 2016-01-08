@@ -374,12 +374,18 @@ module.exports = function (grunt) {
                         'images/{,*/}*.{webp}',
                         'styles/fonts/{,*/}*.*',
                         'fonts/*',
+                        'scripts/config.js',
                     ]
                 }, {
                     expand: true,
                     cwd: 'bower_components/angular-ui-grid/',
                     src: 'ui-grid.ttf',
                     dest: '<%= yeoman.dist %>/styles'
+                },{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>',
+                    src: 'scripts/config.js',
+                    dest: '<%= yeoman.dist %>/scripts'
                 }, {
                     expand: true,
                     cwd: '.tmp/images',
@@ -469,7 +475,7 @@ module.exports = function (grunt) {
               wrap: '"use strict";\n\n{%= __ngModule %}',
               name: 'cgeUploaderApp.config'
             },
-            prod: {
+            prodCompare: {
                 options: {
                   dest: '<%= yeoman.app %>/scripts/config.js',
                 },
@@ -477,6 +483,51 @@ module.exports = function (grunt) {
                   API: {
                     status: 'prod',
                     url: 'http://compare.cbs.dtu.dk:8890/',
+                  },
+                  SITE: {
+                    url: 'compare',
+                  }
+                }
+            },
+            prodEngage: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'http://compare.cbs.dtu.dk:8891/',
+                  },
+                  SITE: {
+                    url: 'engage',
+                  }
+                }
+            },
+            devCompare: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'http://192.168.99.100:8890/',
+                  },
+                  SITE: {
+                    url: 'compare',
+                  }
+                }
+            },
+            devEngage: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'http://192.168.99.100:8890/',
+                  },
+                  SITE: {
+                    url: 'engage',
                   }
                 }
             },
@@ -487,13 +538,15 @@ module.exports = function (grunt) {
                 constants: {
                   API: {
                     status: 'dev',
-                    url: 'http://127.0.0.1:8000/', // PHP server
+                    url: 'http://127.0.0.1:8000/',
+                  },
+                  SITE: {
+                    url: 'compare',
                   }
                 }
             }
         }
     });
-
 
     grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
         if (target === 'dist') {
@@ -526,9 +579,33 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
-    grunt.registerTask('build', [
+    grunt.registerTask('buildCompare', [
         'clean:dist',
-        'ngconstant:prod', // We are in development stage
+        'ngconstant:prodCompare', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('buildEngage', [
+        'clean:dist',
+        'ngconstant:prodEngage', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('devCompare', [
+        'clean:dist',
+        'ngconstant:devCompare', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('devEngage', [
+        'clean:dist',
+        'ngconstant:devEngage', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('build', [
+        // 'clean:dist',
+        // 'ngconstant:prod', // We are in development stage
         'wiredep',
         'useminPrepare',
         'concurrent:dist',
