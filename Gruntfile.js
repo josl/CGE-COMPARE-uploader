@@ -541,7 +541,7 @@ module.exports = function (grunt) {
                     url: 'http://127.0.0.1:8000/',
                   },
                   SITE: {
-                    url: 'compare',
+                      url: 'compare',
                   }
                 }
             }
