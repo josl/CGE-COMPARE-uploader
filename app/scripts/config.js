@@ -6,4 +6,8 @@ angular.module('cgeUploaderApp.config', [])
 
 .constant('SITE', {url:'engage'})
 
+<<<<<<< HEAD
 ;
+=======
+;
+>>>>>>> 0.4.2

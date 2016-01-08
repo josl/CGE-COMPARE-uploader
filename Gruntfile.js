@@ -510,7 +510,7 @@ module.exports = function (grunt) {
                 constants: {
                   API: {
                     status: 'prod',
-                    url: 'http://127.0.0.1:8000/',
+                    url: 'http://192.168.99.100:8890/',
                   },
                   SITE: {
                     url: 'compare',
@@ -524,7 +524,7 @@ module.exports = function (grunt) {
                 constants: {
                   API: {
                     status: 'prod',
-                    url: 'http://127.0.0.1:8000/',
+                    url: 'http://192.168.99.100:8890/',
                   },
                   SITE: {
                     url: 'engage',
@@ -541,13 +541,12 @@ module.exports = function (grunt) {
                     url: 'http://127.0.0.1:8000/',
                   },
                   SITE: {
-                    url: 'engage',
+                      url: 'compare',
                   }
                 }
             }
         }
     });
-
 
     grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
         if (target === 'dist') {
@@ -594,13 +593,13 @@ module.exports = function (grunt) {
 
     grunt.registerTask('devCompare', [
         'clean:dist',
-        'ngconstant:prodCompare', // We are in development stage
+        'ngconstant:devCompare', // We are in development stage
         'build'
     ]);
 
     grunt.registerTask('devEngage', [
         'clean:dist',
-        'ngconstant:prodEngage', // We are in development stage
+        'ngconstant:devEngage', // We are in development stage
         'build'
     ]);
 
