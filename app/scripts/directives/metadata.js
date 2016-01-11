@@ -50,10 +50,12 @@ angular.module('cgeUploaderApp')
                                     .then(function (validation) {
                                         angular.extend(scope, validation);
                                         angular.forEach(scope.columns, function(column){
-                                            scope.gridOptions
-                                                 .columnDefs
-                                                 .push({field: column,
-                                                        width: '20%'});
+                                            if (column !== 'meta_uid'){
+                                                scope.gridOptions
+                                                     .columnDefs
+                                                     .push({field: column,
+                                                            width: '20%'});
+                                            }
                                         });
                                         scope.gridOptions.data = validation.metadata;
                                     });
