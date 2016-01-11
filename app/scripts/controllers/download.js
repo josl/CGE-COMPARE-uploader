@@ -32,7 +32,7 @@ angular.module('cgeUploaderApp')
             $scope.metadataExampleCollapsed = true;
             $scope.metadataActive = true;
             $scope.error = false;
-            $scope.site = SITE.url;
+            $scope.site = SITE.name;
             $scope.downloadFile = function (row, file_id) {
                 console.log(row.entity.meta_id);
                 var element = angular.element('#' + row.entity.meta_id);

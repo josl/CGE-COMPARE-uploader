@@ -24,8 +24,8 @@ angular.module('cgeUploaderApp')
             $scope.user = $cookies.get('user');
             console.log(User);
             console.log($scope.active, $scope.loggedin, $cookies.get('token') !== undefined);
-            console.log(SITE.url);
-            $scope.siteUrl = SITE.url;
+            console.log(SITE.name);
+            $scope.siteUrl = SITE.name;
             $scope.logout = function () {
                 console.log('logging out');
                 User.loggedIn = false;
