@@ -2,6 +2,7 @@
     "columns":
     {
         "sample_name": "",
+        "accession_id": "",
         "user_name": "",
         "file_names": "",
         "sequencing_platform": ["illumina", "ion torrent"],
