@@ -57,7 +57,10 @@ module.exports = function (grunt) {
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {
-                files: ['Gruntfile.js']
+                files: ['Gruntfile.js'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                }
             },
             livereload: {
                 options: {

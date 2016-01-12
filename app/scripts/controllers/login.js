@@ -21,7 +21,7 @@ angular.module('cgeUploaderApp')
                   $rootScope, User, SITE) {
             $scope.isAuthenticated = false;
             $scope.error = false;
-            $scope.site = SITE.url;
+            $scope.site = SITE.name;
             console.log($scope.site);
             $scope.loginUser = function() {
                 console.log('lala');
@@ -32,7 +32,7 @@ angular.module('cgeUploaderApp')
                         $cookies.put('user', $scope.username);
                         $scope.isAuthenticated = true;
                         console.log(data);
-                        $location.path('/' + SITE.url + 'upload');
+                        $location.path('/' + SITE.name + 'upload');
                         console.log($scope.username);
                         User.setName($scope.username);
                         console.log(User);
