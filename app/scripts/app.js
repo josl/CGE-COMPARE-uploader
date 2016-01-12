@@ -62,7 +62,7 @@ angular
               controllerAs: 'login'
             })
             .otherwise({
-                redirectTo: '/' + SITE.url + 'login'
+                redirectTo: '/' + SITE.name + 'login'
             })
             ;
         // Cross Site Request Forgery protection
@@ -77,13 +77,13 @@ angular
              var token = $cookies.get('token') || false;
              console.log(token);
              // redirect to login page if not logged in and trying to access a restricted page
-             var restrictedPage = $.inArray($location.path(), ['/' + SITE.url + 'login']) === -1;
+             var restrictedPage = $.inArray($location.path(), ['/' + SITE.name + 'login']) === -1;
              var loggedIn = token;
              console.log(restrictedPage, loggedIn);
              if (restrictedPage && !loggedIn) {
                  $cookies.remove('token');
                  $rootScope.$broadcast('newLogin');
-                 $location.path('/' + SITE.url + 'login');
+                 $location.path('/' + SITE.name + 'login');
              } else {
                  console.log('Token exists!');
                  // Try to refresh token
@@ -97,7 +97,7 @@ angular
                              console.log('error');
                              $cookies.remove('token');
                              $rootScope.$broadcast('newLogin');
-                             $location.path('/' + SITE.url + 'login');
+                             $location.path('/' + SITE.name + 'login');
                          }
                      );
                  }

@@ -28,11 +28,11 @@ angular.module('cgeUploaderApp')
                 '<button ng-click="grid.appScope.downloadFile(row, row.entity.files[0]);"' +
                 'class="btn file-download"><i class="mdi-file-file-download"></i></button>' +
                 '<button ng-show="row.entity.n_files > 1" ng-click="grid.appScope.downloadFile(row, row.entity.files[1]);"' +
-                'class="btn file-download"><i class="mdi-file-file-download"></i></button>'
+                'class="btn file-download"><i class="mdi-file-file-download"></i></button>';
             $scope.metadataExampleCollapsed = true;
             $scope.metadataActive = true;
             $scope.error = false;
-            $scope.site = SITE.url;
+            $scope.site = SITE.name;
             $scope.downloadFile = function (row, file_id) {
                 console.log(row.entity.meta_id);
                 var element = angular.element('#' + row.entity.meta_id);
