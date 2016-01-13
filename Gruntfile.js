@@ -488,7 +488,7 @@ module.exports = function (grunt) {
                     url: 'https://compare.cbs.dtu.dk:8890/',
                   },
                   SITE: {
-                    url: 'compare',
+                    name: 'compare',
                   }
                 }
             },
@@ -502,7 +502,7 @@ module.exports = function (grunt) {
                     url: 'https://compare.cbs.dtu.dk:8891/',
                   },
                   SITE: {
-                    url: 'engage',
+                    name: 'engage',
                   }
                 }
             },
@@ -516,7 +516,7 @@ module.exports = function (grunt) {
                     url: 'http://192.168.99.100:8890/',
                   },
                   SITE: {
-                    url: 'compare',
+                    name: 'compare',
                   }
                 }
             },
@@ -530,7 +530,7 @@ module.exports = function (grunt) {
                     url: 'http://192.168.99.100:8890/',
                   },
                   SITE: {
-                    url: 'engage',
+                    name: 'engage',
                   }
                 }
             },
@@ -544,7 +544,7 @@ module.exports = function (grunt) {
                     url: 'http://127.0.0.1:8000/',
                   },
                   SITE: {
-                      url: 'compare',
+                      name: 'compare',
                   }
                 }
             }
