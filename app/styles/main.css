@@ -175,15 +175,14 @@ body {
     background-image: url("../images/compare-logo.jpg");
     background-repeat: no-repeat;
     background-size: 300px;
-    background-position-x: 50%;
+    background-position: 50% 0px;
 }
 
 .engage{
     background-image: url("../images/engage-logo.jpg");
     background-repeat: no-repeat;
     background-size: 300px;
-    background-position-x: 50%;
-    background-position-y: 20px;
+    background-position: 50% 20px;
 }
 
 #header {
