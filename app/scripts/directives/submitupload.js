@@ -149,7 +149,8 @@ angular.module('cgeUploaderApp')
                                                         scope.paused = false;
                                                         // Get refreshed token
                                                         console.log(response);
-                                                        // $cookies.put('token', )
+                                                        console.log('DONE! sending SAVE META');
+                                                        console.log('Meta saved!');
                                                         scope.filesUploaded += 1;
                                                         if (scope.filesUploaded === scope.isolateFiles.length) {
                                                             scope.uploaded = true;
@@ -158,28 +159,9 @@ angular.module('cgeUploaderApp')
                                                             console.log('we keep going...');
                                                             scope.uploading = true;
                                                         }
-
-                                                        console.log('DONE! sending SAVE META');
-                                                        $http({
-                                                                url: API.url + 'api/meta/save',
-                                                                method: "POST",
-                                                                data: $httpParamSerializer({
-                                                                    upload_id: file.result.upload_id,
-                                                                    'md5': hash,
-                                                                    'meta': meta,
-                                                                    'token': $cookies.get('token'),
-                                                                    'meta_id': currentMetaId
-                                                                }),
-                                                                headers: {
-                                                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                                                }
-                                                            })
-                                                            .then(function (response) {
-                                                                console.log('Meta saved!');
-                                                            });
+                                                        file.uploaded = true;
                                                         file.paused = false;
                                                         file.uploading = false;
-                                                        file.uploaded = true;
                                                         console.log(file.progress, response);
                                                     },
                                                     function (response) {
@@ -214,22 +196,6 @@ angular.module('cgeUploaderApp')
                             console.log(scope.metadata);
                             var index = 0;
                             var filesCounterInSample = 0;
-                            // angular.forEach(scope.isolateFiles, function (file) {
-                            //     if (!file.$error) {
-                            //         file.totalFiles = scope.metadata[index]
-                            //                               .file_names.split(' ')
-                            //                               .length;
-                            //         file.headers = {};
-                            //         filesCounterInSample += 1;
-                            //         console.log(file.name, scope.metadata[index].file_names);
-                            //         file.meta = scope.metadata[index];
-                            //         file.fileUploading = filesCounterInSample;
-                            //         if (filesCounterInSample === file.totalFiles) {
-                            //             index += 1;
-                            //             filesCounterInSample = 0;
-                            //         }
-                            //     }
-                            // });
                             angular.forEach(scope.isolateFiles, function (file) {
                                 file.headers = {};
                                 scope.upload(file);
