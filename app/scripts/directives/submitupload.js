@@ -214,21 +214,24 @@ angular.module('cgeUploaderApp')
                             console.log(scope.metadata);
                             var index = 0;
                             var filesCounterInSample = 0;
+                            // angular.forEach(scope.isolateFiles, function (file) {
+                            //     if (!file.$error) {
+                            //         file.totalFiles = scope.metadata[index]
+                            //                               .file_names.split(' ')
+                            //                               .length;
+                            //         file.headers = {};
+                            //         filesCounterInSample += 1;
+                            //         console.log(file.name, scope.metadata[index].file_names);
+                            //         file.meta = scope.metadata[index];
+                            //         file.fileUploading = filesCounterInSample;
+                            //         if (filesCounterInSample === file.totalFiles) {
+                            //             index += 1;
+                            //             filesCounterInSample = 0;
+                            //         }
+                            //     }
+                            // });
                             angular.forEach(scope.isolateFiles, function (file) {
-                                if (!file.$error) {
-                                    file.totalFiles = scope.metadata[index].file_names.split(' ')
-                                        .length;
-                                    file.headers = {};
-                                    filesCounterInSample += 1;
-                                    file.meta = scope.metadata[index];
-                                    file.fileUploading = filesCounterInSample;
-                                    if (filesCounterInSample === file.totalFiles) {
-                                        index += 1;
-                                        filesCounterInSample = 0;
-                                    }
-                                }
-                            });
-                            angular.forEach(scope.isolateFiles, function (file) {
+                                file.headers = {};
                                 scope.upload(file);
                             });
                         }
