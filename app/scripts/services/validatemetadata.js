@@ -100,17 +100,19 @@ angular.module('cgeUploaderApp')
                                             }
                                         });
                                     } else if (key === 'collection_date') {
-                                        var date = moment(
-                                            isolateMetadata[key],
-                                            ['YYYY-MM-DD', 'YYYY-MM', 'YYYY'],
-                                            true
-                                        );
-                                        if (!date.isValid()) {
-                                            console.log('error in date');
-                                            var str = '[Line ' + line.toString() +
-                                                '] ' + 'Date has a wrong format';
-                                            answer.errorMessages.push(str);
-                                            answer.excelStatus = 'error';
+                                        if (isolateMetadata[key] !== 'unknown'){
+                                            var date = moment(
+                                                isolateMetadata[key],
+                                                ['YYYY-MM-DD', 'YYYY-MM', 'YYYY'],
+                                                true
+                                            );
+                                            if (!date.isValid()) {
+                                                console.log('error in date');
+                                                var str = '[Line ' + line.toString() +
+                                                    '] ' + 'Date has a wrong format';
+                                                answer.errorMessages.push(str);
+                                                answer.excelStatus = 'error';
+                                            }
                                         }
                                     }
                                 }

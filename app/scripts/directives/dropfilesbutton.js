@@ -19,6 +19,12 @@ angular.module('cgeUploaderApp')
                 scope.uploaded = false;
                 scope.validate = function ($file) {
                     if (scope.isService === 'false'){
+                        // Append metadata to file
+                        var meta = _.find(scope.metadata, function(meta){
+                            return _.contains(meta.file_names.split(' '), $file.name);
+                        });
+                        console.log($file.name, meta.file_names);
+                        $file.meta = meta;
                         return _.contains(scope.templateFiles, $file.name);
                     }else {
                         scope.templateFiles.push($file.name);
