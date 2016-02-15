@@ -64,7 +64,8 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
-                    livereload: '<%= connect.options.livereload %>'
+                    livereload: '<%= connect.options.livereload %>',
+                    ignore: '<%= yeoman.app %>/{,*/}*.xlsx'
                 },
                 files: [
                     '<%= yeoman.app %>/{,*/}*.html',
@@ -80,11 +81,13 @@ module.exports = function (grunt) {
                 port: 9010,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: 'localhost',
-                livereload: 35735
+                livereload: 35735,
+                ignore: ['.xlsx']
             },
             livereload: {
                 options: {
                     open: true,
+                    ignore: ['.xlsx'],
                     middleware: function (connect) {
                         return [
                             connect.static('.tmp'),
