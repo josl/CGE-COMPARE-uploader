@@ -34,6 +34,7 @@ angular.module('cgeUploaderApp')
           "Notes": "John Peters ; immuno_lab ; batch_63",
       }];
       $scope.site = SITE.name;
+      $scope.metadataurl = 'metadata/metadataform_' + SITE.name + '.xlsx';
       $scope.metadataExampleCollapsed = true;
       $scope.stepActive = 'metadata';
       $scope.fileError = false;
