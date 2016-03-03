@@ -185,6 +185,20 @@ body {
     background-position: 50% 20px;
 }
 
+.erasmus{
+    background-image: url("../images/erasmus-logo.jpg");
+    background-repeat: no-repeat;
+    background-size: 300px;
+    background-position: 50% 20px;
+}
+
+.fvst{
+    background-image: url("../images/fvst-logo.png");
+    background-repeat: no-repeat;
+    background-size: 300px;
+    background-position: 50% 20px;
+}
+
 #header {
     background-color: lightslategrey;
 }

@@ -77,14 +77,17 @@ angular.module('cgeUploaderApp')
                                 } else {
                                     // Checking for non-empty values
                                     if (isolateMetadata[key].trim() === "") {
-                                        console.log(
-                                            '[Line ' + line.toString() + '] ' +
-                                            'Missing value for ' + key + ' '
-                                        );
-                                        answer.errorMessages.push('[Line ' +
-                                            line.toString() + '] ' +
-                                            'Missing value for ' + key + ' ');
-                                        answer.excelStatus = 'error';
+                                        if (key === 'sequencing_platform' &&
+                                            isolateMetadata.pre_assembled === 'no') {
+                                            console.log(
+                                                '[Line ' + line.toString() + '] ' +
+                                                'Missing value for ' + key + ' '
+                                            );
+                                            answer.errorMessages.push('[Line ' +
+                                                line.toString() + '] ' +
+                                                'Missing value for ' + key + ' ');
+                                            answer.excelStatus = 'error';
+                                        }
                                     }
                                     if (key === 'file_names') {
                                         var isolateFiles = isolateMetadata[key].split(' ');
