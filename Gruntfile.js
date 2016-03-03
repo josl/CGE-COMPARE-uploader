@@ -523,6 +523,20 @@ module.exports = function (grunt) {
                   }
                 }
             },
+            prodFVST: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'https://compare.cbs.dtu.dk/fvstAPI/',
+                  },
+                  SITE: {
+                    name: 'fvst',
+                  }
+                }
+            },
             devCompare: {
                 options: {
                   dest: '<%= yeoman.app %>/scripts/config.js',
@@ -562,6 +576,20 @@ module.exports = function (grunt) {
                   },
                   SITE: {
                     name: 'erasmus',
+                  }
+                }
+            },
+            devFVST: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'http://192.168.99.100:8890/',
+                  },
+                  SITE: {
+                    name: 'fvst',
                   }
                 }
             },
@@ -631,6 +659,12 @@ module.exports = function (grunt) {
         'build'
     ]);
 
+    grunt.registerTask('buildFVST', [
+        'clean:dist',
+        'ngconstant:prodFVST', // We are in development stage
+        'build'
+    ]);
+
     grunt.registerTask('devCompare', [
         'clean:dist',
         'ngconstant:devCompare', // We are in development stage
@@ -646,6 +680,12 @@ module.exports = function (grunt) {
     grunt.registerTask('devErasmus', [
         'clean:dist',
         'ngconstant:devErasmus', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('devFVST', [
+        'clean:dist',
+        'ngconstant:devFVST', // We are in development stage
         'build'
     ]);
 
