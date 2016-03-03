@@ -17,8 +17,7 @@
         "longitude": "",
         "latitude": "",
         "location_note": "",
-        "host": ["human", "water", "food", "animal", "other", "laboratory"],
-        "isolation_source": "",
+        "isolation_source": ["human", "water", "food", "animal", "other", "laboratory"],
         "source_note": "",
         "pathogenic": ["yes", "no", "unknown"],
         "pathogenicity_note": "",
@@ -36,7 +35,6 @@
         "file_names",
         "pre_assembled",
         "country",
-        "host",
         "isolation_source",
         "collection_date"
     ]

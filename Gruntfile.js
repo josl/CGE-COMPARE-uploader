@@ -509,6 +509,20 @@ module.exports = function (grunt) {
                   }
                 }
             },
+            prodErasmus: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'https://compare.cbs.dtu.dk/erasmusAPI/',
+                  },
+                  SITE: {
+                    name: 'erasmus',
+                  }
+                }
+            },
             devCompare: {
                 options: {
                   dest: '<%= yeoman.app %>/scripts/config.js',
@@ -534,6 +548,20 @@ module.exports = function (grunt) {
                   },
                   SITE: {
                     name: 'engage',
+                  }
+                }
+            },
+            devErasmus: {
+                options: {
+                  dest: '<%= yeoman.app %>/scripts/config.js',
+                },
+                constants: {
+                  API: {
+                    status: 'prod',
+                    url: 'http://192.168.99.100:8890/',
+                  },
+                  SITE: {
+                    name: 'erasmus',
                   }
                 }
             },
@@ -597,6 +625,12 @@ module.exports = function (grunt) {
         'build'
     ]);
 
+    grunt.registerTask('buildErasmus', [
+        'clean:dist',
+        'ngconstant:prodErasmus', // We are in development stage
+        'build'
+    ]);
+
     grunt.registerTask('devCompare', [
         'clean:dist',
         'ngconstant:devCompare', // We are in development stage
@@ -606,6 +640,12 @@ module.exports = function (grunt) {
     grunt.registerTask('devEngage', [
         'clean:dist',
         'ngconstant:devEngage', // We are in development stage
+        'build'
+    ]);
+
+    grunt.registerTask('devErasmus', [
+        'clean:dist',
+        'ngconstant:devErasmus', // We are in development stage
         'build'
     ]);
 

@@ -31,32 +31,17 @@ angular
         $httpProvider.interceptors.push('AuthInterceptor');
 
         $routeProvider
-            .when('/compareupload', {
+            .when('/' + SITE.name + 'upload', {
                 templateUrl: 'views/upload.html',
                 controller: 'UploadCtrl',
                 controllerAs: 'upload'
             })
-            .when('/comparedownload', {
+            .when('/' + SITE.name + 'download', {
                 templateUrl: 'views/download.html',
                 controller: 'DownloadCtrl',
                 controllerAs: 'download'
             })
-            .when('/comparelogin', {
-              templateUrl: 'views/login.html',
-              controller: 'LoginCtrl',
-              controllerAs: 'login'
-            })
-            .when('/engageupload', {
-                templateUrl: 'views/upload.html',
-                controller: 'UploadCtrl',
-                controllerAs: 'upload'
-            })
-            .when('/engagedownload', {
-                templateUrl: 'views/download.html',
-                controller: 'DownloadCtrl',
-                controllerAs: 'download'
-            })
-            .when('/engagelogin', {
+            .when('/' + SITE.name + 'login', {
               templateUrl: 'views/login.html',
               controller: 'LoginCtrl',
               controllerAs: 'login'

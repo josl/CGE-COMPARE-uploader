@@ -36,7 +36,6 @@
         "file_names",
         "pre_assembled",
         "country",
-        "host",
         "isolation_source",
         "collection_date"
     ]
